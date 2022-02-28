@@ -20,6 +20,17 @@ var port_https = process.env.PORT_https || 8080; // for https
 // again. CORS Anywhere is open by design, and this blacklist is not used, except for countering
 // immediate abuse (e.g. denial of service). If you want to block all origins except for some,
 // use originWhitelist instead.
+/*
+
+    fix error: 
+                  The origin "" was not whitelisted by the operator of this proxy
+    https://github.com/Rob--W/cors-anywhere/issues/217
+    You need to remove export CORSANYWHERE_WHITELIST=* from your start script.
+
+    If you still have the same shell from where you've run the above commands, use unset CORSANYWHERE_WHITELIST or export CORSANYWHERE_WHITELIST= to clear the value of the environment variable.
+
+*/
+
 var originBlacklist = parseEnvList(process.env.CORSANYWHERE_BLACKLIST);
 var originWhitelist = parseEnvList(process.env.CORSANYWHERE_WHITELIST);
 function parseEnvList(env) {
