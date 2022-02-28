@@ -68,7 +68,7 @@ var checkRateLimit = require('./lib/rate-limit')(process.env.CORSANYWHERE_RATELI
           originWhitelist: [], // Allow all origins
 
 
-          
+
           // fix --- https://github.com/Rob--W/cors-anywhere/issues/39
           // requireHeader: ['origin', 'x-requested-with'],
           requireHeader: [],
@@ -119,7 +119,8 @@ var checkRateLimit = require('./lib/rate-limit')(process.env.CORSANYWHERE_RATELI
 // ********** end **** https ***************************
 
   originBlacklist: originBlacklist,
-  originWhitelist: originWhitelist,
+  //originWhitelist: originWhitelist,
+  originWhitelist: [], // Allow all origins
 
   // fix --- https://github.com/Rob--W/cors-anywhere/issues/39
   // requireHeader: ['origin', 'x-requested-with'],
