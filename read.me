@@ -1,0 +1,101 @@
+
+
+               *************  centOS *********************
+
+
+
+	      must use whm terminal( as hoogw)
+	      cpanel terminal (as hoogw2000 would not work)
+
+
+                    cd /home/hoogw2000/node/arcgis_viewer/
+  
+                    pm2 list
+       
+                    pm2 stop x ( id with npm is arcgis viewer)
+
+                    pm2 delete x
+
+
+
+
+  1)start arcgis_viewer
+              
+              cd /home/hoogw2000/node/arcgis_viewer/
+              
+              pm2 list
+              
+              
+              Must rename .env to windows.env and centos.env to .env
+
+              pm2 start npm -- start
+              
+              
+              
+              
+              
+              
+          2)start cors-anywhere
+          
+                   
+              **** Do NOT use sudo su - hoogw2000, use hoogw for 'node' folder, if use hoogw2000, node will not run or run error.
+              
+              
+
+              cd /home/hoogw2000/node/cors-anywhere/
+              pm2 start server.js
+              
+            
+            
+            
+            
+          3) update startscript list by, enable auto restart node app after system reboot https://pm2.keymetrics.io/docs/usage/startup/ 
+                     https://futurestud.io/tutorials/pm2-restart-processes-after-system-reboot
+          
+              pm2 startup
+
+              pm2 save  
+            
+            
+            
+            
+            
+            
+            
+         
+          ol2 
+          
+                   cd /home/hoogw2000/node/ol2/
+
+   
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            ------------------------------------------  
+						kill node:
+						http://pm2.keymetrics.io
+
+
+
+						pm2 stop 0
+
+						pm2 list
+
+ 							npm --> means arcgis_viewer , so delete this id 3
+ 							server --> means cors-proxy-server
+
+						pm2 delete 3
+              
+              
+                        pm2 delete id
+              
+             ---------------------------------------
+             
+             
