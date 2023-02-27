@@ -90,13 +90,26 @@ Done. apache.
   next step do 2 node.js apps.
 
 
-10) arcgis_viewer,  bin folder, 
 
-if it is renew, only update public.certificat,  private key still use old key.
- ( copy past private.key and public.certificat)
+9) warning: if  arcgis_viewer node.js crash on localhost
+that means, private key and public certificate does not match.
+I must go to cpanel, SSL check both private key and certificate.
 
-current in used, private key name : 
-              transparentgov.net and www.transparentgov.net
+When I renew or install a new certificate, maybe a new private key was generated as well. I must copy paste that private key into node.js app. 
+
+10) arcgis_viewer,  bin folder,  public.cert is from email downloaded 
+private key is from cpanel,  > 
+CERTIFICATES (CRT)
+ Generate, view, upload, or delete SSL certificates.
+click 'edit' for the new installed certificate expire in next year.
+
+now scroll down to bottom,  click  that private key
+This certificate uses the following key:
+
+Key (transparentgov.net 1677474718.0)
+
+This is the private key, I must copy past in node.js Bin folder, private.key file.
+
 ----------------------------------------------------------------------------
 
 
