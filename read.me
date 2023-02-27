@@ -1,101 +1,390 @@
 
-
-               *************  centOS *********************
-
-
-
-	      must use whm terminal( as hoogw)
-	      cpanel terminal (as hoogw2000 would not work)
-
-
-                    cd /home/hoogw2000/node/arcgis_viewer/
-  
-                    pm2 list
-       
-                    pm2 stop x ( id with npm is arcgis viewer)
-
-                    pm2 delete x
+Note: must have private.key and public.cer file, missing any one will cause error when npm start
 
 
 
 
-  1)start arcgis_viewer
-              
-              cd /home/hoogw2000/node/arcgis_viewer/
-              
-              pm2 list
-              
-              
-              Must rename .env to windows.env and centos.env to .env
-
-              pm2 start npm -- start
-              
-              
-              
-              
-              
-              
-          2)start cors-anywhere
-          
-                   
-              **** Do NOT use sudo su - hoogw2000, use hoogw for 'node' folder, if use hoogw2000, node will not run or run error.
-              
-              
-
-              cd /home/hoogw2000/node/cors-anywhere/
-              pm2 start server.js
-              
-            
-            
-            
-            
-          3) update startscript list by, enable auto restart node app after system reboot https://pm2.keymetrics.io/docs/usage/startup/ 
-                     https://futurestud.io/tutorials/pm2-restart-processes-after-system-reboot
-          
-              pm2 startup
-
-              pm2 save  
-            
-            
-            
-            
-            
-            
-            
-         
-          ol2 
-          
-                   cd /home/hoogw2000/node/ol2/
-
-   
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            ------------------------------------------  
-						kill node:
-						http://pm2.keymetrics.io
 
 
 
-						pm2 stop 0
 
-						pm2 list
 
- 							npm --> means arcgis_viewer , so delete this id 3
- 							server --> means cors-proxy-server
+2022 comodo SSL 
 
-						pm2 delete 3
-              
-              
-                        pm2 delete id
-              
-             ---------------------------------------
-             
-             
+
+1). on comodo, need  Input CSR (Certificate Signing Request)
+
+     cpanel > SSL / TLS > click  SSL certificate signing request
+
+      fill out:  
+Generate a New Certificate Signing Request (CSR)
+
+      key:  choose generate a new key
+      domains:   type "transparentgov.net"
+
+
+
+click "generate" button at bottom
+
+
+copy CSR
+                      -----BEGIN CERTIFICATE REQUEST-----
+                      -----END CERTIFICATE REQUEST-----
+
+
+
+
+
+
+
+2). on comodo,  select your server
+
+                     apache-modSSL
+
+
+
+
+
+
+4) select approver email
+
+                  admin@transparentgov.net
+
+
+5) check email,  admin@transparentgov.net
+
+             copy validation code
+ 
+             click 'validation' link,
+
+
+
+6) click re-check status, button
+
+          download certificate
+
+
+
+
+
+
+7)  cpanel > SSL / TLS >CERTIFICATES (CRT)
+ Generate, view, upload, or delete SSL certificates
+
+Upload a New Certificate
+or just copy past here
+
+   Now a new certificate save on server. next step, install it.
+
+
+
+8)  cpanel > SSL / TLS > INSTALL AND MANAGE SSL FOR YOUR SITE (HTTPS)
+ Manage SSL sites.
+
+      browse to the newly saved certificate
+
+      click "install"  button
+
+Done. apache. 
+
+  next step do 2 node.js apps.
+
+
+10) arcgis_viewer,  bin folder, 
+
+if it is renew, only update public.certificat,  private key still use old key.
+ ( copy past private.key and public.certificat)
+
+current in used, private key name : 
+              transparentgov.net and www.transparentgov.net
+----------------------------------------------------------------------------
+
+
+
+
+
+
+
+https://huguowen.blogspot.com/2018/07/centos-ssl.html
+
+
+
+centOS putty log in:
+
+      arcgis_viewer:
+                                                           
+                                    **** Do NOT use sudo su - hoogw2000, use hoogw for 'node' folder, if use hoogw2000, node will not run or run error.
+                                    cd /home/hoogw2000/node/arcgis_viewer/
+
+
+
+                                    *******  must sudo su, access folder public_html, without this will access deny, node should not in public_html folder, because should hide private.key from public access
+                                    sudo su - hoogw2000
+                                    cd /home/hoogw2000/public_html/arcgis_viewer/
+
+
+
+                                    Must rename .env to windows.env and centos.env to .env
+
+                                    pm2 start npm -- start
+
+
+
+
+      cors-anywhere:
+                       
+
+                            **** Do NOT use sudo su - hoogw2000, use hoogw for 'node' folder, if use hoogw2000, node will not run or run error.
+                            cd /home/hoogw2000/node/cors-anywhere/
+
+
+                            *******  must sudo su, access folder public_html, without this will access deny, node should not in public_html folder, because should hide private.key from public access
+                            sudo su - hoogw2000
+                            cd /home/hoogw2000/public_html/cors-anywhere/
+
+                            pm2 start server.js
+
+
+
+
+
+
+
+
+
+++++++++++++ re-key +++++++++++++++++
+
+first skip re-key
+if SSL does't work, or change domain, or change server,  always should re-key
+
+     --------------- re-key -------------------
+
+     ON godaddy
+
+            my product ------------ SSL certificate ----- click manage button
+
+
+            you should see your ssl certificate, click it.
+
+            Re-Key
+
+            Top menu, click repository,
+
+            3 big button, download, re-key,  xxx.  click re-key
+
+            3 plus + sign, click first +,  past your CSR here. ( how to get CSR? ---- go to cpanel, search SSL,  click Certificate Signing Requests (CSR) )
+
+             copy the Encoded Certificate Signing Request, and past on goDaddy re-key page, then submit.
+            REMEMBER:
+                everytime you creat a new Certificate Signing Request, you auto create a new private key saved at Private Keys (KEY) page
+                you will use this as private.key file later
+
+
+             wait a few minutes
+
+             you get email from godaddy(certificate authority)
+
+
+
+      Download crt, choose apache only. for both apache and node.js
+      (if you choose 'other' for node and 'apache' for centOS, the node.js app will not work)
+
+      !!! must use same certificate for both apache and node. !!!!!!!!
+
+
+
+
++++++ node.js   +++++
+
+
+    1 . public key:
+    copy c1b82dd3af7660ec.crt from cpanel or downloaded.zip to node.js , (do NOT use gd_bundle-g2-g1.crt)
+    rename c1b82dd3af7660ec.crt to  public.cert   at  /bin/www/public.cert
+
+
+    2 . private key: (if renew, still use old private key, no change here)
+    you should download from godaddy product page, click SSL certificate, download private key.
+    rename generated-private-key.txt to private.key (optional, whatever name you like,you will use same name in WWW file)
+
+
+
+
+ ++++++++ centOS SSL apache    +++++++++++
+
+     godaddy cpanel  --------- click SSL/TLS
+
+
+1) click Private Keys (KEY), delete old private key, upload a new private key.(renew, private key, no change skip this )
+
+
+
+2) click Certificate Signing Requests (CSR)
+   skip this, since godaddy already put certificate crt file on download zip.
+   If you want to re-key, you do want send Certificate Signing Requests (CSR)
+   and wait until get crt file
+
+
+
+3) click Certificates (CRT), this is where you need upload your crt(certificate) file to centOS apache server.
+   click to Upload a New Certificate, choose the 6e1dce9c9beeeed6.crt file(publick.cert) you downloaded from godaddy.
+   you may want to choose apache version one.
+
+   Once upload,you should see a new certificate saved on server.
+
+
+
+
+4) click Install and Manage SSL for your site (HTTPS)
+     I. uninstall all old certificate (see expiratin date)
+
+     II. click browse certificates, choose the one you saved on last step certificate(CRT)
+         click install certificate
+
+
+
+5) Do not forget  re-upload node.js (with new certificate), arcgis_viewer and cors-anywhere
+
+
+
+********* only renew ***********
+
+1) download certificate zip file from godaddy,
+     only 6e1dce9c9beeeed6.crt is we need.
+
+2) upload crt file to cpanel.  cpanel -- ssl , click certificate(CRT)
+
+      upload a new certificate, click choose file, choose xxx.crt(just downloaded).
+
+3) install new crt, by click install.
+
+
+---------------------------
+
+
+
+******************** full steps ***********************
+
+godaddy SSL
+
+ON Server
+
+1) cpanel  --------- click SSL/TLS
+
+2) click
+Certificate Signing Requests (CSR)
+
+    click Generate
+
+
+3) copy first part:  encoded CSR
+
+
+
+ON godaddy
+
+my product ------------ SSL certificate ----- click manage button
+
+
+you should see your ssl certificate, click it.
+
+Re-Key
+
+Top menu, click repository,
+
+3 big button, download, re-key,  xxx.  click re-key
+
+3 plus + sign, click first +,  past your CSR here.
+
+
+Click Save button
+
+at bottom, click "generate certificate" button.
+
+
+Wait ..................  hours? days?.........................
+
+
+You got a email from godaddy,  follow download link to download zip file.
+
+zip file has 2 crt file.
+
+
+Upload 2 crt file at cpanel.  click SSL/STL
+
+click
+Certificates (CRT)
+
+Upload a New Certificate
+
+
+choose file, 2 crt.
+
+then you upload crt.
+
+
+
+at SSL/STL   click
+Manage Installed SSL Websites
+
+click
+
+Browse certificate, choose the new one you just uploaded.
+
+then install.
+
+Done
+
+
+
+
+
+****** check certificate ******
+
+https://ssltools.godaddy.com/views/certChecker
+
+
+
+
+
+
+
+
+node express add SSL
+
+
+
+1)
+download private key file from cpanel ----- ssl/STL ---- private key---
+click edit, copy encoded part into a new file. Save to /bin/www/private.key
+
+2)
+download certificate file, from godaddy, my product, SSL,
+click download button, choose other type.
+
+Only 1 file xxxx.crt is the one we need, copy to  /bin/www/public.cert
+
+ you can copy past encoded certificate from cpanel---ssl , click Certificate(CRT),   click edit,
+copy encoded certificate
+
+
+3)
+/bin/www  file add https code.
+
+// readFileSync function must use __dirname get current directory
+
+
+// require use ./ refer to current directory.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
