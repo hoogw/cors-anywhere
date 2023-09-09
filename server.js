@@ -75,8 +75,8 @@ var checkRateLimit = require('./lib/rate-limit')(process.env.CORSANYWHERE_RATELI
 
           checkRateLimit: checkRateLimit,
           removeHeaders: [
-            'cookie',
-            'cookie2',
+           // 'cookie',  // I want to keep "document.cookie" from original ajax url request
+           // 'cookie2',
             // Strip Heroku-specific headers
             'x-heroku-queue-wait-time',
             'x-heroku-queue-depth',
